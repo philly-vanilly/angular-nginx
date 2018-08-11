@@ -6,13 +6,14 @@ WORKDIR /app
 COPY package.json /app/
 RUN npm install
 COPY ./ /app/
-RUN npm run build --prod
+RUN npm run build --prod --subresource-integrity
 
 # Stage 1, for copying the compiled app from the previous step and making it ready for production with Nginx
 
 FROM nginx:alpine
 COPY --from=node /app/dist/angular-nginx /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY dhparam.pem etc/ssl/dhparam.pem
 
 # Stage 2, for generating a private/public key-pair. Do not use self-signed certificates in production!
 RUN apk update
