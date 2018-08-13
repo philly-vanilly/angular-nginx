@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json /app/
 RUN npm install
 COPY ./ /app/
-RUN npm run build --prod --subresource-integrity
+RUN npm run build-prod
 
 # Stage 1, for copying the compiled app from the previous step and making it ready for production with Nginx
 
